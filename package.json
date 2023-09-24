@@ -1,0 +1,8 @@
+{
+  "name": "Digital_Platform",
+  "version": "1.0.0",
+  "description": "no",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
