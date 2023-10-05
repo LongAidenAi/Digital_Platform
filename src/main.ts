@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 /**
  * 这个是node.js导入模块的方法，
  * 而因为早期javascript是没有自己的模块导入的
@@ -40,25 +41,25 @@ const data = [
     }
 ]
 
-app.get("/posts", (req, res) => {
-    res.send(data);
+app.get("/posts", (request: Request, response: Response) => {
+    response.send(data);
 });
 
-app.get("/posts/:postId", (req, res) => {
+app.get("/posts/:postId", (request: Request, response: Response) => {
     //获取内容 ID
-    const { postId } = req.params;
+    const { postId } = request.params;
 
     //查找具体内容
     const posts = data.filter(item => item.id == postId);
 
     //做出响应
-    res.send(posts[0]);
+    response.send(posts[0]);
 })
 
 /**
  * 创建内容
  */
-app.post("/posts", (request, response) => {
+app.post("/posts", (request: Request, response: Response) => {
     //获取请求中的数据
     const { content } = request.body;
 
