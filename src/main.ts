@@ -14,6 +14,8 @@ import { Request, Response } from 'express';
 const app = express();
 const port = 5000;
 
+
+
 /**
  * 使用 JSON 中间件
  */
@@ -50,7 +52,7 @@ app.get("/posts/:postId", (request: Request, response: Response) => {
     const { postId } = request.params;
 
     //查找具体内容
-    const posts = data.filter(item => item.id == postId);
+    const posts = data.filter(item => item.id == parseInt(postId, 10));
 
     //做出响应
     response.send(posts[0]);
