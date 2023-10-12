@@ -14,3 +14,19 @@ export const createUser = async (user: UserModel) => {
 
     return data
 }
+
+/**
+ * 按用户名查找用户
+ */
+export const getUserByName = async (name: string) => {
+    const statement = `
+      select id, name 
+      from user 
+      where name = ?
+    `
+
+    const [ data ] = await connection.promise().query(statement, name)
+
+    //提供数据
+    return data[0]
+}
