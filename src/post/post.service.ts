@@ -55,3 +55,16 @@ export const updatePost = async (postId: number, post: PostModel) => {
 
     return data
 }
+
+/**
+ * 删除内容
+ */
+export const deletePost = async (postId: number) => {
+    const statement = `
+        delete from post
+        where id = ?
+    `
+    const [ data ] = await connection.promise().query(statement, postId)
+    
+    return data
+}
