@@ -51,7 +51,7 @@ export const defaultErrorHandler = (
             break;
         case 'USER_ALREADY_EXIST':
             statusCode = 400
-            message = '用户名已存在'
+            message = '用户名已被占用'
             break;    
         default:
             statusCode = 500;
