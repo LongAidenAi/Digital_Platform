@@ -13,6 +13,7 @@ export const login = async (
     //准备数据
     const { user: {id, name}} = request.body;
 
+    //通过用户登录中间件验证通过之后，会生成jwt，首先是payload
     const payload = {id, name}
    
     try {
@@ -24,4 +25,15 @@ export const login = async (
     } catch (error) {
         next(error)
     }
+}
+
+/**
+ * 验证登录
+ */
+export const validate = (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    response.sendStatus(200)
 }

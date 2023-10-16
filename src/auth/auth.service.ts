@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { PRIVATE_KEY } from '../app/app.config'
-import { urlToHttpOptions } from 'url';
+
 
 /**
  * 签发信息
@@ -10,6 +10,7 @@ interface SignTokenOptions {
 }
 
 export const signToken = (options: SignTokenOptions) => {
+
     //准备选项
     const {payload} = options
 
