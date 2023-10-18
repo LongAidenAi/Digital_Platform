@@ -32,6 +32,7 @@ export const fileProcessor = async (
     try {
         //读取图像文件
         image = await Jimp.read(path)
+
     } catch (error) {
         return next(error)
     }

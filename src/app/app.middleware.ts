@@ -69,6 +69,10 @@ export const defaultErrorHandler = (
             statusCode = 403
             message = '您不能处理这个内容'
             break;
+        case 'FILE_NOTE_FOUND':
+            statusCode = 404
+            message = '文件不存在'
+            break;
         default:
             statusCode = 500;
             message = "服务器出现了一点问题"

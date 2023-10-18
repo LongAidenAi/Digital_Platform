@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import {Request, Response, NextFunction} from 'express'
 import _ from 'lodash'
 import { createFile, findFileById } from './file.service'
@@ -54,14 +56,42 @@ export const store = async (
  ) => {
      // 从地址参数里得到文件 ID
      const {fileId} = request.params;
-
      try {
         //查找文件信息
         const file = await findFileById(parseInt(fileId, 10))
+        
+        //要提供的图像尺寸
+        const {size} = request.query
+
+        //文件名与目录
+        let filename = file.filename
+        let root = 'uploads'
+        let resized = 'resized'
+
+        if (size) {
+            //可用的图像尺寸
+            const imageSize = ['large', 'medium', 'thumbnail']
+
+            //检查文件尺寸是否可用
+            if(!imageSize.some(item => item == size)) {
+                throw new Error('FILE_NOTE_FOUND')
+            }
+
+            //检查文件是否存在 
+            const fileExist = fs.existsSync(
+                path.join(root, resized, `${filename}-${size}`)
+            )
+
+            //设备文件名和目录
+            if(fileExist) {
+                filename = `${filename}-${size}`
+                root = path.join(root, resized)
+            }
+        }
 
         //做出响应
-        response.sendFile(file.filename, {
-            root: 'uploads',
+        response.sendFile(filename, {
+            root,
             headers: {
                 'Content-Type': file.mimetype
             }
