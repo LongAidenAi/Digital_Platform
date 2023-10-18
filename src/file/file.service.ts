@@ -33,6 +33,5 @@ export const findFileById = async (
     `
 
     const [data] = await connection.promise().query(statement, fileId)
-    console.log(data)
     return data[0]
 }
