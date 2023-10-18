@@ -33,9 +33,10 @@ export const store = async (
         const data = await createFile({
             ...fileInfo,
             userId,
-            postId
+            postId,
+            ...request.fileMetaData
         })
-
+        
         //做出响应
         response.status(201).send(data)
     } catch (error) {
