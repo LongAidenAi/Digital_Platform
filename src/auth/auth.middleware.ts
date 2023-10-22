@@ -94,7 +94,6 @@ export const accessControl = (options: AccessControlOptions) => {
         if(userId == 1) return next();
 
         //准备资源
-        console.log(request)
         const resourceIdParam = Object.keys(request.params)[0]; 
         const resourceType = resourceIdParam.replace('Id', '') //用做查询数据库的post表
         const resourceId = parseInt(request.params[resourceIdParam], 10) //获取到当前操作内容的id

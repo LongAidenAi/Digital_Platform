@@ -32,6 +32,16 @@ accessControl({possession: true}),
 postController.destroy)
 
 /**
+ * 添加内容标签
+ */
+router.post(
+    '/posts/:postId/tag', 
+    authGuard, 
+    accessControl({possession: true}),
+    postController.storePostTag
+    )
+
+/**
  * 导出路由
  */
 export default router

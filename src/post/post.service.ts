@@ -68,3 +68,35 @@ export const deletePost = async (postId: number) => {
     
     return data
 }
+
+/***
+ * 保存内容标签
+ */
+export const createPostTag = async (
+    postId: number, tagId: number   
+) => {
+    const statement = `
+      insert into post_tag(postId, tagId)
+      values(?,?)
+    `
+
+    const [data] = await connection.promise().query(statement,[postId, tagId])
+
+    return data;
+}
+
+/***
+ * 检查内容标签
+ */
+export const postHashTag = async (
+  postId: number, tagId: number
+) => {
+    const statement = `
+      select * from post_tag
+      where postId=? and tagId=?
+    `
+
+    const [data] = await connection.promise().query(statement, [postId,tagId])
+
+    return data[0] ? true : false;
+}

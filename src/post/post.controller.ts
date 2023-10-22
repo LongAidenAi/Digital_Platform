@@ -1,6 +1,14 @@
 import { Request,Response, NextFunction } from "express";
-import { getPosts,createPost,updatePost, deletePost } from "./post.service";
 import _ from "lodash"
+import { 
+    getPosts,
+    createPost,
+    updatePost, 
+    deletePost, 
+    createPostTag, 
+    postHashTag } from "./post.service";
+import { TagModel } from "../tag/tag.model";
+import { getTagByName, createTag } from "../tag/tag.service";
 
 /**
  * 内容列表
@@ -89,4 +97,54 @@ export const destroy = async (
     }
 
 
+}
+
+/***
+ * 添加内容标签
+ */
+export const storePostTag = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    const {postId} = request.params
+    const {name} = request.body
+
+    let tag: TagModel;
+
+    //在数据库查找是否有这个标签
+    try {
+        tag = await getTagByName(name)
+        console.log(tag)
+    } catch (error) {
+        return next(error)
+    }
+
+    //如果找到了这个标签, 判断这个标签是不是之前已经贴到了这个帖子上
+    if(tag) {
+        try {
+            const postTag = await postHashTag(parseInt(postId, 10),tag.id)
+            if(postTag) return next(new Error('POST_ALREADY_HAS_THIS_TAG'))
+        } catch (error) {
+            return next(error)
+        }
+    }
+
+    //如果在数据库没有找到给内容贴上的这个标签，则去创建这个标签
+    if(!tag) {
+        try {
+            const data = await createTag({name})
+            tag = {id: data.insertId}
+        } catch (error) {
+            return next(error)
+        }
+    }
+
+    //给内容打上标签
+    try {
+        await createPostTag(parseInt(postId, 10), tag.id)
+        response.sendStatus(201)
+    } catch (error) {
+        return next(error)
+    }
 }
