@@ -16,3 +16,19 @@ export const createComment = async (
 
     return data
 }
+
+/***
+ * 检查评论是否为回复评论 
+ */
+export const isReplyComment = async (
+  commentId: number 
+) => {
+    const statement = `
+     select parentId from comment
+     where id = ?
+    `
+
+    const [data] = await connection.promise().query(statement,commentId)
+
+    return data[0].parentId ? true : false
+}
