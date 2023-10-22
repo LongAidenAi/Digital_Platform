@@ -51,3 +51,19 @@ export const isReplyComment = async (
 
   return data
  }
+
+ /***
+  * 删除评论
+  */
+ export const deleteComment = async (
+  commentId: number
+ ) => {
+     const statement = `
+       delete from comment
+       where id = ?
+     `
+
+     const [data] = await connection.promise().query(statement, commentId)
+
+     return data
+ }

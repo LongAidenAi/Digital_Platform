@@ -24,4 +24,14 @@ router.patch(
     commentController.update
     )
 
+/**
+ * 删除评论
+ */
+router.delete(
+    '/comments/:commentId',
+    authGuard, 
+    accessControl({possession: true}),
+    commentController.destroy
+    )
+
 export default router
