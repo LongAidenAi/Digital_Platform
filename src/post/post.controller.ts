@@ -6,7 +6,8 @@ import {
     updatePost, 
     deletePost, 
     createPostTag, 
-    postHashTag } from "./post.service";
+    postHashTag,
+    deletePostTag } from "./post.service";
 import { TagModel } from "../tag/tag.model";
 import { getTagByName, createTag } from "../tag/tag.service";
 
@@ -146,5 +147,25 @@ export const storePostTag = async (
         response.sendStatus(201)
     } catch (error) {
         return next(error)
+    }
+}
+
+/***
+ * 删除内容标签
+ */
+export const destroyPostTag = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    const {postId} = request.params
+    const {tagId} = request.body
+
+    //移除内容标签
+    try {
+        await deletePostTag(parseInt(postId, 10), tagId)
+        response.sendStatus(200)
+    } catch (error) {
+        next(error)
     }
 }

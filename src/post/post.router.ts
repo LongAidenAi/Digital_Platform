@@ -42,6 +42,16 @@ router.post(
     )
 
 /**
+ * 移除内容标签
+ */
+router.delete(
+    '/posts/:postId/tag',
+    authGuard,
+    accessControl({possession: true}),
+    postController.destroyPostTag
+)
+
+/**
  * 导出路由
  */
 export default router

@@ -1,5 +1,5 @@
 import { connection } from "../app/database/msyql"
-import { PostModel } from "./model"
+import { PostModel } from "./post.model"
 
 
 
@@ -99,4 +99,20 @@ export const postHashTag = async (
     const [data] = await connection.promise().query(statement, [postId,tagId])
 
     return data[0] ? true : false;
+}
+
+/***
+ * 移除内容标签
+ */
+export const deletePostTag = async (
+  postId: number, tagId:number
+) => {
+    const statement = `
+     delete from post_tag
+     where postId = ? and tagId = ?
+    `
+
+    const [data] = await connection.promise().query(statement, [postId, tagId])
+
+    return data
 }
