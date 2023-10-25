@@ -9,7 +9,6 @@ const router = express.Router()
  */
 router.post('/users', validateUserData, hashPassword, userController.store)
 
-
 /**
  * 导出路由
  */

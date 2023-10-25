@@ -40,3 +40,4 @@ export const getUserByName = async (name: string, options: GetUserDptions = {}) 
     //提供数据
     return data[0]
 }
+
