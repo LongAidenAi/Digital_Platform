@@ -1,5 +1,6 @@
 import { connection } from "../app/database/msyql"
 import { PostModel } from "./post.model"
+import { sqlFragment } from "./post.provider"
 
 
 
@@ -12,13 +13,9 @@ export const getPosts = async () => {
         post.id,
         post.title,
         post.content,
-        JSON_OBJECT(
-            'id', user.id,
-            'name', user.name
-        ) as user
+        ${sqlFragment.user}
       from post
-      left join user
-        on user.id = post.userId
+        ${sqlFragment.leftJoinUser}
     `
     const [ data ] = await connection.promise().query(statement)
     return data
