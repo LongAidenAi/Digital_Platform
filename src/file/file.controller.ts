@@ -19,13 +19,13 @@ export const store = async (
     const {id: userId} = request.user
 
     //所属内容
-    const {post: postIdString} = request.query
+    const {post: postIdString} = request.query 
     const postId = parseInt(postIdString as string, 10)
     
     //文件信息]
     const fileInfo = _.pick(request.file, [
         'originalname',
-        'mimetype',
+        'mimetype', 
         'filename',
         'size',
     ])
@@ -43,7 +43,7 @@ export const store = async (
         response.status(201).send(data)
     } catch (error) {
         next(error)
-    }
+    } 
 }
 
  /***
@@ -111,7 +111,6 @@ export const metadata = async (
 ) => {
     //文件id
     const { fileId } = request.params
-
     try {
         //查询文件数据
         const file = await findFileById(parseInt(fileId, 10))
@@ -120,7 +119,7 @@ export const metadata = async (
         const data = _.pick(file, ['id', 'size', 'width', 'height', 'metadata'])
         
         //做出响应
-        response.send(data)
+        response.send(data) 
     } catch (error) {
         next(error)
     }

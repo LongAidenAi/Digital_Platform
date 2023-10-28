@@ -13,7 +13,7 @@ export const sqlFragment = {
      on user.id = post.userId
     `,
     totalComments:`
-     (
+     (  
 	 	SELECT
 	 		count(comment.id)
 	 	FROM

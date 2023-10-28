@@ -41,7 +41,6 @@ export const possess = async (options: PossessOptions) => {
         from ${resourceType}
         where ${resourceType}.id = ? and userId = ? 
     `
-
     //检查拥有权 
     const [data] = await connection
     .promise()

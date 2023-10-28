@@ -66,7 +66,7 @@ export const authGuard = (
         
         //在请求里添加当前用户
         request.user = decoded as TokenPayload
-
+        
         next()
     } catch (error) {
         next(new Error('UNAUTHORIZED'))
@@ -103,6 +103,7 @@ export const accessControl = (options: AccessControlOptions) => {
             try {
                 const ownResource = await possess({resourceId, resourceType, userId})
 
+                console.log(ownResource)
                 if(!ownResource) {
                     return next(new Error('USER_DOSE_NOT_OWN_RESOURCE'))
                 }

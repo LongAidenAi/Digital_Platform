@@ -29,14 +29,12 @@ export const getUserByName = async (name: string, options: GetUserDptions = {}) 
   const statement = `
       select 
       id, 
-      name,
-      ${password ? 'password': ''} 
+      name
+      ${password ? ',password': ''} 
       from user 
       where name = ?
     `
-
-    const [ data ] = await connection.promise().query(statement, name)
-
+    const [data] = await connection.promise().query(statement, name)
     //提供数据
     return data[0]
 }
