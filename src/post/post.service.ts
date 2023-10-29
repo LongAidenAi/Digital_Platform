@@ -7,7 +7,13 @@ import { sqlFragment } from "./post.provider"
 /**
  * 获取内容列表 
  */
-export const getPosts = async () => {
+interface GetPostsOptions {
+  sort?: string;
+}
+
+export const getPosts = async (options: GetPostsOptions) => {
+    const {sort} = options
+
     const statement = `
       select 
         post.id,
@@ -23,6 +29,7 @@ export const getPosts = async () => {
         ${sqlFragment.leftJoinTag}
         group by 
           post.id
+        order by ${sort}
     `
     const [ data ] = await connection.promise().query(statement)
     
