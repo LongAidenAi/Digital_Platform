@@ -17,3 +17,20 @@ export const createUserLikePost = async (
 
     return data
 }
+
+/***
+ * 取消内容点赞内容
+ */
+export const deleteUserLikePost = async (
+   userId: number,
+   postId: number
+) => {
+    const statement = `
+     delete from user_like_post
+     where userId = ? and postId = ?
+    `
+
+    const [data] = await connection.promise().query(statement, [userId, postId])
+
+    return data
+}

@@ -9,5 +9,10 @@ const router = express.Router()
  */
 router.post('/posts/:postId/like', authGuard, LikeController.storeUserLikePost)
 
+/**
+ * 取消点赞内容
+ */
+router.delete('/posts/:postId/like', authGuard, LikeController.destroyUserLikePost)
+
 
 export default router
