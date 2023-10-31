@@ -32,7 +32,7 @@ export const getPosts = async (options: GetPostsOptions) => {
 
     //设置 sql 参数
     if(postFilter.param) {
-      params = [postFilter.param, ...params]
+      params = [parseInt(postFilter.param, 10), ...params]
     }
 
     const statement = `
@@ -41,22 +41,21 @@ export const getPosts = async (options: GetPostsOptions) => {
         post.title,
         post.content,
         ${sqlFragment.user},
-        ${sqlFragment.totalComments},
-        ${sqlFragment.file},
-        ${sqlFragment.tag},
         ${sqlFragment.totalLikes}
       from post
         ${sqlFragment.leftJoinUser}
-        ${sqlFragment.leftJoinOneFile}
-        ${sqlFragment.leftJoinTag}
+        ${postFilter.name == 'userLiked' ? sqlFragment.innerJoinUserLikePost : ''}
       where ${postFilter.sql}
       group by post.id
       order by ${sort}
       limit ?
       offset ?
     `
+    if(postFilter.name == 'userLiked') {
+      console.log(sqlFragment.innerJoinUserLikePost)
+    }
     const [ data ] = await connection.promise().query(statement, params)
-
+    
 
     return data
 }
@@ -173,6 +172,7 @@ export const getPostsTotalCount = async (
    ${sqlFragment.leftJoinUser}
    ${sqlFragment.leftJoinOneFile}
    ${sqlFragment.leftJoinTag}
+   ${postFilter.name == 'userLiked' ? sqlFragment.innerJoinUserLikePost : ''}
    where ${postFilter.sql}
   `
 

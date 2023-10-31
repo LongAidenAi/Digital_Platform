@@ -79,7 +79,10 @@ export const sqlFragment = {
         from user_like_post
         where user_like_post.postId = post.id
     ) as totalLikes 
-
+    `,
+    innerJoinUserLikePost: `
+    inner join user_like_post
+    on user_like_post.postId = post.id
     `
 
 }

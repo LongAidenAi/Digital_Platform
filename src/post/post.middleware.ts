@@ -62,12 +62,21 @@ export const filter = async (
             param: String(tag)
         }
     }
+
     //过滤出用户发布的内容
     if(user && action == 'published' && !tag) {
-
         request.postFilter = {
             name: 'userPublished',
             sql: 'user.id = ?',
+            param: String(user)
+        }
+    }
+
+    //过滤出用户赞过的内容
+    if(user && action == 'liked' && !tag) {
+        request.postFilter = {
+            name: 'userLiked',
+            sql: 'user_like_post.userId = ?',
             param: String(user)
         }
     }
