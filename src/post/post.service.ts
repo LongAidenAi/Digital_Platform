@@ -1,4 +1,4 @@
-import { connection } from "../app/database/msyql"
+import { connection } from "../app/database/mysql"
 import { PostModel } from "./post.model"
 import { sqlFragment } from "./post.provider"
 

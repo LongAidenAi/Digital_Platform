@@ -1,6 +1,6 @@
 import path from "path";
 import Jimp from "jimp";
-import { connection } from "../app/database/msyql";
+import { connection } from "../app/database/mysql";
 import { FileModel } from './file.model'
 
 /**

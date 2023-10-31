@@ -1,4 +1,4 @@
-import {connection} from "../app/database/msyql"
+import {connection} from "../app/database/mysql"
 import { UserModel } from "./user.model" 
 
 /**
