@@ -6,6 +6,7 @@ import fileRouter from '../file/file.router'
 import tagRouter from '../tag/tag.router'
 import commentRouter from '../comment/comment.router'
 import avatarRouter from '../avatar/avatar.router'
+import likeRouter from '../likes/like.router'
 import { defaultErrorHandler } from './app.middleware';
 
 /**
@@ -29,7 +30,8 @@ app.use(
     fileRouter, 
     tagRouter,
     commentRouter,
-    avatarRouter)
+    avatarRouter,
+    likeRouter)
 
 /**
  * 默认异常处理器
