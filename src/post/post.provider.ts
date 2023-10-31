@@ -5,12 +5,15 @@ export const sqlFragment = {
     user: `
      JSON_OBJECT(
         'id', user.id,
-        'name', user.name
+        'name', user.name,
+        'avatar', IF(COUNT(avatar.id), 1, null)
      ) as user
     `,
     leftJoinUser: `
      left join user
-     on user.id = post.userId
+      on user.id = post.userId
+     left join avatar
+      on user.id = avatar.userId
     `,
     totalComments:`
      (  
