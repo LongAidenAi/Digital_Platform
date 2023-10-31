@@ -7,12 +7,27 @@ import { sqlFragment } from "./post.provider"
 /**
  * 获取内容列表 
  */
-interface GetPostsOptions {
-  sort?: string;
+export interface GetPostsOptionsFilter {
+  name: string;
+  sql?: string;
+  param?: string;
 }
 
+interface GetPostsOptions {
+  sort?: string;
+  postFilter?: GetPostsOptionsFilter
+}
+ 
 export const getPosts = async (options: GetPostsOptions) => {
-    const {sort} = options
+    const {sort, postFilter} = options
+
+    //sql 参数
+    let params: Array<any> = []
+
+    //设置 sql 参数
+    if(postFilter.param) {
+      params = [postFilter.param, ...params]
+    }
 
     const statement = `
       select 
@@ -27,12 +42,12 @@ export const getPosts = async (options: GetPostsOptions) => {
         ${sqlFragment.leftJoinUser}
         ${sqlFragment.leftJoinOneFile}
         ${sqlFragment.leftJoinTag}
-        group by 
-          post.id
-        order by ${sort}
+      where ${postFilter.sql}
+      group by post.id
+      order by ${sort}
     `
-    const [ data ] = await connection.promise().query(statement)
-    
+    const [ data ] = await connection.promise().query(statement, params)
+    console.log(postFilter.sql)
     return data
 }
 

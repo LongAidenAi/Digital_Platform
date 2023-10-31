@@ -21,7 +21,7 @@ export const index = async(
     next: NextFunction
 ) => {
     try {
-        const posts = await getPosts({sort: request.sort})
+        const posts = await getPosts({sort: request.sort, postFilter: request.postFilter})
         response.send(posts)
     } catch (error) {
         next(error)
