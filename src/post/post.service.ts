@@ -43,7 +43,8 @@ export const getPosts = async (options: GetPostsOptions) => {
         ${sqlFragment.user},
         ${sqlFragment.totalComments},
         ${sqlFragment.file},
-        ${sqlFragment.tag}
+        ${sqlFragment.tag},
+        ${sqlFragment.totalLikes}
       from post
         ${sqlFragment.leftJoinUser}
         ${sqlFragment.leftJoinOneFile}
