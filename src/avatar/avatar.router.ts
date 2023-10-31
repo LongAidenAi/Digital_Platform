@@ -9,6 +9,17 @@ const router = express.Router()
 /**
  * 上传文件
  */
-router.post('/avatar', authGuard, avatarInterceptor, avatarProcessor, avatarController.store)
+router.post('/avatar', 
+    authGuard, 
+    avatarInterceptor, 
+    avatarProcessor, 
+    avatarController.store
+    )
+
+/**
+ * 导出路由
+ */
+router.get('/users/:userId/avatar', avatarController.serve)
+
 
 export default router

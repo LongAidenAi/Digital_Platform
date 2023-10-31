@@ -14,3 +14,21 @@ export const createAvatar = async (avatar: AvatarModel) => {
 
     return data
 }
+
+/***
+ * 按用户 ID 查找 头像
+ */
+export const findAvatarByUserId = async (
+    userId: number
+) => {
+    const statement = `
+     select *
+     from avatar
+     where userId = ?
+     order by avatar.id desc
+     limit 1
+    `
+    const [data] = await connection.promise().query(statement, userId)
+    
+    return data[0]
+}
