@@ -1,4 +1,5 @@
 import {Request, Response, NextFunction} from 'express'
+import {POSTS_PER_PAGE} from '../app/app.config'
 
 /***
  * 排序方式
@@ -61,15 +62,37 @@ export const filter = async (
             param: String(tag)
         }
     }
-    console.log(user,action)
     //过滤出用户发布的内容
     if(user && action == 'published' && !tag) {
+
         request.postFilter = {
             name: 'userPublished',
             sql: 'user.id = ?',
             param: String(user)
         }
     }
+
+    next()
+}
+
+/***
+ * 内容分页
+ */
+export const paginate = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    //当前页码
+    const {page = 1} = request.query
+    console.log(POSTS_PER_PAGE)
+    //每页内容数量
+    const limit = parseInt(POSTS_PER_PAGE, 10) || 30;
+    //计算出偏移量
+    const offset = limit * ( Number(page) - 1 )
+
+    //设置请求中的分页
+    request.pagination = { limit, offset}
 
     next()
 }
