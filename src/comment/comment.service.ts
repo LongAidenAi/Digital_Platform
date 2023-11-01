@@ -1,5 +1,6 @@
 import { connection } from "../app/database/mysql"
 import { CommentModel } from "./comment.model"
+import { sqlFragment } from "./comment.provider"
 
 /***
  * 创建评论
@@ -67,3 +68,31 @@ export const isReplyComment = async (
 
      return data
  }
+
+/***
+ * 获取评论列表
+ */
+export const getComments = async (
+) => {
+    let params: Array<any> = []
+
+    const statement = `
+     select
+      comment.id,
+      comment.content,
+      ${sqlFragment.user},
+      ${sqlFragment.post}
+      from 
+       comment
+      ${sqlFragment.leftJoinUser}
+      ${sqlFragment.leftJoinPost}
+      group by 
+       comment.id
+      order by 
+       comment.id desc
+    `
+
+    const [data] = await connection.promise().query(statement, params)
+
+    return data
+}

@@ -180,3 +180,33 @@ export const getPostsTotalCount = async (
 
   return data[0].total
 }
+
+/***
+ * 按 id 调取内容
+ */
+export const getPostById = async (
+ postId: number
+) => {
+    const statement = `
+     select 
+      post.id,
+      post.title,
+      post.content,
+      ${sqlFragment.user},
+      ${sqlFragment.totalComments},
+      ${sqlFragment.file},
+      ${sqlFragment.tag}
+      from post
+      ${sqlFragment.leftJoinUser}
+      ${sqlFragment.leftJoinOneFile}
+      ${sqlFragment.leftJoinTag}
+      where post.id = ?
+    `
+
+      const [data] = await connection.promise().query(statement, postId)
+
+      if(!data[0].id) {
+        throw new Error('NOT_FOUND')
+      }
+      return data[0]
+}

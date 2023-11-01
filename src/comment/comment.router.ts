@@ -34,4 +34,9 @@ router.delete(
     commentController.destroy
     )
 
+/**
+ * 评论列表
+ */
+router.get('/comments', commentController.index)
+
 export default router
