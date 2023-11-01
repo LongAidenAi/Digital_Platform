@@ -24,5 +24,27 @@ export const sqlFragment = {
         'id',post.id,
         'title',post.title
      ) as post
-    `
+    `,
+    repliedComment: `
+     (
+       select
+         json_object(
+            'id', repliedComment.id,
+            'content', repliedComment.content
+         )
+      from 
+         comment repliedComment
+      where comment.parentId = repliedComment.id
+     ) as repliedComment
+    `,
+    totalReplis: `
+     (
+      select 
+         count(reply.id)
+      from 
+         comment reply
+      where 
+         reply.parentId = comment.id
+     ) as totalReplies
+    `       
 }

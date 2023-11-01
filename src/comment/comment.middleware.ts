@@ -36,5 +36,14 @@ export const commentFilter = async (
         }
     }
 
+    //用户的回复
+    if(user && action == 'replied' && !post) {
+        request.postFilter = {
+            name: 'userReplied',
+            sql: 'comment.parentId IS NULL AND comment.userId = ?',
+            param: String(user)
+        }
+    }
+
     next()
 }

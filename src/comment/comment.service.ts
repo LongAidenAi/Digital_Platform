@@ -95,6 +95,8 @@ export const getComments = async (
       comment.content,
       ${sqlFragment.user},
       ${sqlFragment.post}
+      ${commentFilter.name == 'userReplied' ? `, ${sqlFragment.repliedComment}` : ''}
+      ${commentFilter.name !== 'userReplied' ? `, ${sqlFragment.totalReplis}` : ''}
       from 
        comment
       ${sqlFragment.leftJoinUser}
