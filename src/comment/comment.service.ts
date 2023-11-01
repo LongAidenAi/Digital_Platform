@@ -1,6 +1,8 @@
+import { GetPostsOptionsFilter } from "src/post/post.service"
 import { connection } from "../app/database/mysql"
 import { CommentModel } from "./comment.model"
 import { sqlFragment } from "./comment.provider"
+import { fileFilter } from "src/file/file.middleware"
 
 /***
  * 创建评论
@@ -72,9 +74,20 @@ export const isReplyComment = async (
 /***
  * 获取评论列表
  */
+export interface GetCommentOptions {
+  commentFilter?: GetPostsOptionsFilter
+}
+
 export const getComments = async (
+  options: GetCommentOptions
 ) => {
+    const {commentFilter} = options;
+
     let params: Array<any> = []
+
+    if(commentFilter.param) {
+      params = [commentFilter.param, ... params]
+    }
 
     const statement = `
      select
@@ -86,6 +99,8 @@ export const getComments = async (
        comment
       ${sqlFragment.leftJoinUser}
       ${sqlFragment.leftJoinPost}
+      where 
+       ${commentFilter.sql}
       group by 
        comment.id
       order by 
