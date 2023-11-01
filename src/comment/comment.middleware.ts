@@ -27,5 +27,14 @@ export const commentFilter = async (
         }
     }
 
+    //用户的评论
+    if(user && action == 'published' && !post) {
+        request.postFilter = {
+            name: 'userPublished',
+            sql: 'comment.parentId IS NULL AND comment.userId = ?',
+            param: String(user)
+        }
+    }
+
     next()
 }
