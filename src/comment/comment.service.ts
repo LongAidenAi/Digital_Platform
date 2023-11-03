@@ -1,4 +1,4 @@
-import { GetPostsOptionsFilter } from "src/post/post.service"
+import { GetPostsOptionsFilter, GetPostsOptionsPagination } from "../post/post.service"
 import { connection } from "../app/database/mysql"
 import { CommentModel } from "./comment.model"
 import { sqlFragment } from "./comment.provider"
@@ -76,14 +76,15 @@ export const isReplyComment = async (
  */
 export interface GetCommentOptions {
   commentFilter?: GetPostsOptionsFilter
+  pagination?: GetPostsOptionsPagination
 }
 
 export const getComments = async (
   options: GetCommentOptions
 ) => {
-    const {commentFilter} = options;
+    const {commentFilter, pagination: {limit, offset}} = options;
 
-    let params: Array<any> = []
+    let params: Array<any> = [limit, offset]
 
     if(commentFilter.param) {
       params = [commentFilter.param, ... params]
@@ -107,6 +108,8 @@ export const getComments = async (
        comment.id
       order by 
        comment.id desc
+      limit ?
+      offset ?
     `
 
     const [data] = await connection.promise().query(statement, params)

@@ -130,7 +130,10 @@ export const index = async (
     next: NextFunction
 ) => {
     try {
-        const comments = await getComments({commentFilter: request.postFilter})
+        const comments = await getComments({
+            commentFilter: request.postFilter,
+            pagination: request.pagination
+        })
 
         response.send(comments)
     } catch (error) {
