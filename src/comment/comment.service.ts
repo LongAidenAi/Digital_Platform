@@ -74,13 +74,13 @@ export const isReplyComment = async (
 /***
  * 获取评论列表
  */
-export interface GetCommentOptions {
+export interface GetCommentsOptions {
   commentFilter?: GetPostsOptionsFilter
   pagination?: GetPostsOptionsPagination
 }
 
 export const getComments = async (
-  options: GetCommentOptions
+  options: GetCommentsOptions
 ) => {
     const {commentFilter, pagination: {limit, offset}} = options;
 
@@ -115,4 +115,38 @@ export const getComments = async (
     const [data] = await connection.promise().query(statement, params)
 
     return data
+}
+
+
+/***
+ * 统计评论数量
+ */
+export const getCommentsTotalCount = async (
+ options: GetCommentsOptions
+) => {
+
+    const {commentFilter} = options
+
+    let params: Array<any> = []
+
+    if(commentFilter.param) {
+      params = [commentFilter.param, ...params]
+    }
+
+    const statement = `
+      select
+       count (
+        distinct comment.id
+       ) as total
+      from
+        comment
+      ${sqlFragment.leftJoinUser}
+      ${sqlFragment.leftJoinPost}
+      where 
+      ${commentFilter.sql}
+    `
+
+    const [data] = await connection.promise().query(statement, params)
+
+    return data[0].total
 }
