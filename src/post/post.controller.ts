@@ -25,7 +25,7 @@ export const index = async(
     try {
         //统计内容数量
         const totalCount = await getPostsTotalCount({postFilter: request.postFilter})
-
+        console.log(request.postFilter)
         //设置响应头部
         response.header('X-Total-Count', totalCount)
     } catch (error) {

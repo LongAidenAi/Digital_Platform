@@ -163,7 +163,7 @@ export const getPostsTotalCount = async (
 
   //SQL 参数
   let params = [postFilter.param]
-
+  console.log('params:',params)
   //准备查询
   const statement = `
    select 
