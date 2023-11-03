@@ -5,8 +5,8 @@ import {
     isReplyComment, 
     updateComment,
     getComments, 
-    getCommentsTotalCount
-   } from './comment.service'
+    getCommentsTotalCount,
+    getCommentReplies} from './comment.service'
 
 /***
  * 发表评论     
@@ -149,5 +149,24 @@ export const index = async (
         response.send(comments)
     } catch (error) {
         next(error)
+    }
+}
+
+/***
+ * 回复列表     
+ */
+export const indexReplies = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    const {commentId} = request.params
+
+    try {
+        const replies = await getCommentReplies({commentId: parseInt(commentId, 10)})
+
+        response.send(replies)
+    } catch (error) {
+        next(error)   
     }
 }

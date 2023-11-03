@@ -150,3 +150,34 @@ export const getCommentsTotalCount = async (
 
     return data[0].total
 }
+
+/***
+ * 评论回复列表
+ */
+interface GetCommentsRepliesOptions {
+  commentId: number;
+}
+
+export const getCommentReplies = async (
+  options: GetCommentsRepliesOptions
+) => {
+   const {commentId} = options
+
+   const statement = `
+    select
+     comment.id,
+     comment.content,
+     ${sqlFragment.user}
+    from 
+     comment
+    ${sqlFragment.leftJoinUser}
+    where 
+     comment.parentId = ?
+    group by
+     comment.id
+   `
+
+   const [data] = await connection.promise().query(statement, commentId)
+
+   return data
+}
