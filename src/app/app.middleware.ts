@@ -97,6 +97,10 @@ export const defaultErrorHandler = (
             statusCode = 400
             message = "用户没找到"
             break
+        case 'PASSWORD_IS_THE_SAME':
+            statusCode = 400
+            message = "要修改的密码不能与原密码一样"
+            break
         default:
             statusCode = 500;
             message = "服务器出现了一点问题"

@@ -57,3 +57,23 @@ export const getUserByName = getUser('user.name')
  * 按用户 ID 获取用户
  */
 export const getUserById = getUser('user.id')
+
+
+/***
+ * 更新用户
+ */
+export const updateUser = async (
+  userId: number, userData: UserModel
+) => {
+    const statement = `
+      update user
+      set ?
+      where user.id = ?
+    `
+    console.log(userData)
+    const params = [userData, userId]
+
+    const [data] = await connection.promise().query(statement, params)
+
+    return data
+}
