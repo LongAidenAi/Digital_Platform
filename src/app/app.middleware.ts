@@ -93,6 +93,10 @@ export const defaultErrorHandler = (
             statusCode = 400
             message = "没找到"
             break
+        case 'USER_NOT_FOUND':
+            statusCode = 400
+            message = "用户没找到"
+            break
         default:
             statusCode = 500;
             message = "服务器出现了一点问题"

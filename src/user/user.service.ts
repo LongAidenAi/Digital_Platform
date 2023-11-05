@@ -16,26 +16,44 @@ export const createUser = async (user: UserModel) => {
 }
 
 /**
- * 按用户名查找用户
+ * 获取用户
  */
-interface GetUserDptions {
+interface GetUserOptions {
   password?: boolean
 }
 
-export const getUserByName = async (name: string, options: GetUserDptions = {}) => {
-  //准备选项
-  const {password} = options
-  
-  const statement = `
-      select 
-      id, 
-      name
-      ${password ? ',password': ''} 
-      from user 
-      where name = ?
+export const getUser = (condition: string) => {
+   return async (param: string | number, options: GetUserOptions = {}) => {
+    const {password} = options
+
+    const statement = `
+      select
+        user.id,
+        user.name,
+        if (
+          count(avatar.id), 1, null
+        ) as avatar
+        ${password ? ', password': ''}
+      from
+       user
+      left join avatar
+       on avatar.userId = user.id
+      where 
+       ${condition} = ?
     `
-    const [data] = await connection.promise().query(statement, name)
-    //提供数据
-    return data[0]
+
+   const [data] = await connection.promise().query(statement, param)
+
+   return data[0].id ? data[0] : null
+   }
 }
 
+/**
+ * 按用户名获取用户
+ */
+export const getUserByName = getUser('user.name')
+
+/**
+ * 按用户 ID 获取用户
+ */
+export const getUserById = getUser('user.id')
