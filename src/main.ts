@@ -14,5 +14,5 @@ connection.connect(error => {
     console.log('连接数据服务失败：',error.message)
   }
 
-  console.log('连接数据服务')
+  console.log('连接数据服务成功')
 })
