@@ -25,8 +25,8 @@ export const sqlFragment = {
 	 		comment.postId = post.id
 	 ) as totalComments
     `,
-    leftJoinOneFile: `
-    LEFT JOIN LATERAL (
+    innerJoinOneFile: `
+    INNER JOIN LATERAL (
         SELECT *
         FROM file
         WHERE file.postId = post.id
